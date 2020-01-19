@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 
+	_ "golang.org/x/image/vector"
+
 	"github.com/unidoc/unipdf/v3/creator"
 	pdf "github.com/unidoc/unipdf/v3/model"
 )
@@ -37,12 +39,9 @@ func operationMeta() {
 }
 
 func operationSign(inputPath string) {
-	imagePath := prompt("path", "Signature file", "")
+	imagePath := prompt("image", "Signature file", "")
 
-	// TODO: Add selection of pages
-	pageNumStr := "1"
-
-	position := prompt("position", "Signature file", "")
+	position := prompt("position", "Signature position", imagePath)
 
 	positionParts := strings.Split(position, ",")
 
@@ -61,8 +60,14 @@ func operationSign(inputPath string) {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
-	outputPath := prompt("path", "Output path", inputPath)
+	outputPath := prompt("save", "Output path", inputPath)
+	// Make sure path has .pdf extension
+	hasExt := strings.HasSuffix(outputPath, ".pdf")
+	if !hasExt {
+		outputPath = outputPath + ".pdf"
+	}
 
+	pageNumStr := positionParts[3]
 	pageNum, err := strconv.Atoi(pageNumStr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
@@ -94,6 +99,14 @@ func prompt(promptType string, question string, defaultValue string) string {
 	text, _ := reader.ReadString('\n')
 	if strings.TrimSpace(text) == "--PROMPT--" {
 		response, _ := reader.ReadString('\n')
+
+		// Empty response
+		if strings.TrimSpace(response) == "" {
+			fmt.Fprintf(os.Stderr, "No answer, aborting.")
+			os.Exit(1)
+			return ""
+		}
+
 		reader.ReadString('\n')
 		return strings.TrimSpace(response)
 	}
