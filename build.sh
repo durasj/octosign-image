@@ -3,6 +3,9 @@
 # Clear
 rm -rf ./dist && mkdir ./dist
 
+# Make sure submodules are there
+git submodule update --init --recursive
+
 # Exercise the right to use and modify LGPL licensed software to hide the watermark
 # Since there is no better way ATM if one decides to use it in open source software
 # sigh...
