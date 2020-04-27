@@ -25,5 +25,5 @@ msgstr ""
 msgid "Signature position"
 msgstr ""
 
-msgid "Output path"
+msgid "Save signed file as"
 msgstr ""

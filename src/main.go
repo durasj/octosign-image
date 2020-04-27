@@ -60,7 +60,7 @@ func operationSign(inputPath string) {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
-	outputPath := prompt("save", "Output path", inputPath)
+	outputPath := prompt("save", "Save signed file as", inputPath)
 	// Make sure path has .pdf extension
 	hasExt := strings.HasSuffix(outputPath, ".pdf")
 	if !hasExt {
