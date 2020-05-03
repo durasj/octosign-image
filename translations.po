@@ -27,3 +27,6 @@ msgstr ""
 
 msgid "Save signed file as"
 msgstr ""
+
+msgid "No answer, aborting."
+msgstr ""
